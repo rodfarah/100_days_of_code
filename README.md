@@ -1,2 +1,3 @@
 # 100_days_of_code
-100 days of code - Rodrigo Farah solving exercises
+100 days of code (Udemy Course)
+Rodrigo Farah solving course exercises
