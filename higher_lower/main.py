@@ -4,9 +4,11 @@ from random import randint
 from game_data import data
 
 def character_picker():
+    """Return a character from data list and Delete character from list."""
     return data.pop(randint(0, len(data)-1))
 
 class Opponent:
+    """ Instantiate an opponent object"""
     def __init__(self, letter):
         character_data = character_picker()
         self.name = character_data.get("name")
@@ -15,12 +17,14 @@ class Opponent:
         self.followers = character_data.get("follower_count")
         self.letter = letter
 
-def winner(a_followers, b_folllowers):
+def winner(a_followers: int, b_folllowers: int) -> str:
+    """Return the letter of the object who has more followers."""
     if a_followers > b_folllowers:
         return "A"
     return "B"
 
 def lets_play():
+    """Start Higher or Lower game."""
     first_round = True
     lose = False
     current_score = 0
