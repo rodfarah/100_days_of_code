@@ -7,6 +7,7 @@ money_machine = MoneyMachine()
 menu = Menu()
 is_on = True
 
+
 def operate():
     """Starts Coffee Machine operations"""
     global is_on
@@ -22,8 +23,7 @@ def operate():
         else:
             drink = menu.find_drink(order)
             if coffee_maker.is_resource_sufficient(order) and money_machine.make_payment(drink.cost):
-                    coffee_maker.make_coffee(drink)
-            
+                coffee_maker.make_coffee(drink)
+
+
 print(operate())
-
-
