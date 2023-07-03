@@ -8,18 +8,42 @@
 - Detect ball missing Paddle backyards.
 - Create a Scoreboard class (create numbers made of squares), increase scoreboard's opponent in 1 point.
 """
-
-from turtle import Screen, Turtle
-from net import Net
+from turtle import Screen
+from paddle import Paddle
+from net import whole_net
+from ball import Ball
+import time
 
 screen = Screen()
-screen.title("Pong Game")
-screen.setup(width=800, height=600)
 screen.bgcolor("black")
+screen.setup(width= 800, height=600)
 screen.tracer(0)
+whole_net()
 
-net = Net()
+left_paddle = Paddle("left")
+right_paddle = Paddle("right")
+ball = Ball()
 
-net.whole_net()
+screen.listen()
+screen.onkey(left_paddle.go_up, "w")
+screen.onkey(left_paddle.go_down, "s")
+screen.onkey(right_paddle.go_up, "Up")
+screen.onkey(right_paddle.go_down, "Down")
+
+
+game_is_on = True
+while game_is_on:
+    time.sleep(0.1)
+    screen.update()
+    ball.move_on()
+    
+    if any([ball.xcor() < - 400, ball.xcor() > 400]):
+        game_is_on = False
+    elif ball.distance(right_paddle) < 50 and ball.xcor() > 325:
+        ball.paddle_bounce()
+    elif ball.distance(left_paddle) < 50 and ball.xcor() < -325:
+        ball.paddle_bounce()
+    elif any([ball.ycor() >= 280, ball.ycor() <= -280]):
+        ball.wall_bounce()
 
 screen.exitonclick()
