@@ -1,22 +1,21 @@
 from turtle import Turtle
 
-# class Net(Turtle):
-#     def __init__(self, shape: str = "classic", undobuffersize: int = 1000, visible: bool = True) -> None:
-#         super().__init__(shape, undobuffersize, visible)
-#         self.whole_net()
-
-def piece_of_net(coordinates):
-    each_block = Turtle("square")
-    each_block.speed("fastest")
-    each_block.color("white")
-    each_block.shapesize(1, 0.2)
-    each_block.penup()
-    each_block.setposition(coordinates)
+Y_EDGES = 290
 
 
-def whole_net():
-    up_coord = 290
-    down_coord = -290
-    while up_coord >= down_coord:
-        piece_of_net((0, up_coord))
-        up_coord -= 30
+class Net():
+    def __init__(self) -> None:
+        self.whole_net()
+
+    def whole_net(self):
+        y_edges = Y_EDGES
+        while y_edges > - Y_EDGES:
+            self.piece_of_net(y_edges)
+            y_edges -= 30
+
+    def piece_of_net(self, y_cor: int):
+        piece = Turtle("square")
+        piece.color("white")
+        piece.shapesize(1, 0.2)
+        piece.penup()
+        piece.goto(0, y_cor)

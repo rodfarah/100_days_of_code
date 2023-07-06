@@ -8,23 +8,28 @@
 - Detect ball missing Paddle backyards.
 - Create a Scoreboard class (create numbers made of squares), increase scoreboard's opponent in 1 point.
 """
-from turtle import Screen
-from paddle import Paddle
-from net import whole_net
 import ball
 import scoreboard as score
 import time
+import math
+from turtle import Screen
+from paddle import Paddle
+from net import Net
+from random import randint
 
+CENTER_TO_CORNER = math.sqrt(50 ** 2 + 10 **2)
 screen = Screen()
 screen.bgcolor("black")
 screen.setup(width=800, height=600)
 screen.tracer(0)
-whole_net()
+
+net = Net()
 
 left_paddle = Paddle("left")
 right_paddle = Paddle("right")
 left_scoreboard = score.Scoreboard((-100, 210))
 right_scoreboard = score.Scoreboard((100, 210))
+
 ball = ball.Ball()
 ball.first_shot_angle()
 
@@ -45,20 +50,20 @@ while left_scoreboard.doesnt_win() and right_scoreboard.doesnt_win():
 
     if ball.xcor() < - 400:
         right_scoreboard.plus_one()
-        ball.home()
+        ball.goto((0, randint(-280, 280)))
         ball.shooting_angle("right")
         pixels = 10
     elif ball.xcor() > 400:
         left_scoreboard.plus_one()
-        ball.home()
+        ball.goto((0, randint(-280, 280)))
         ball.shooting_angle("left")
         pixels = 10
-    elif ball.distance(right_paddle) < 100 and ball.xcor() > 325:
+    elif (ball.ycor() > right_paddle.ycor() - 60 and ball.ycor() < right_paddle.ycor() + 60) and ball.xcor() == 370:
         ball.paddle_bounce()
-        pixels += 5
-    elif ball.distance(left_paddle) < 100 and ball.xcor() < -325:
+        pixels += 3
+    elif (ball.ycor() > left_paddle.ycor() - 60 and ball.ycor() < right_paddle.ycor() + 60) and ball.xcor() == 370:
         ball.paddle_bounce()
-        pixels += 5
+        pixels += 3
     elif any([ball.ycor() >= 280, ball.ycor() <= -280]):
         ball.wall_bounce()
 
