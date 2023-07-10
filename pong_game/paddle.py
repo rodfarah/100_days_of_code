@@ -1,7 +1,7 @@
 from turtle import Turtle
 
-X_POSITION = 360
-Y_POSITION = 0
+PADDLE_X_POSITION = 360
+PADDLE_Y_POSITION = 0
 
 
 class Paddle(Turtle):
@@ -13,9 +13,9 @@ class Paddle(Turtle):
         self.shapesize(stretch_wid=5, stretch_len=1)
         self.penup()
         if self.side == "left":
-            self.goto((-X_POSITION, Y_POSITION))
+            self.goto((-PADDLE_X_POSITION, PADDLE_Y_POSITION))
         elif self.side == "right":
-            self.goto((X_POSITION, Y_POSITION))
+            self.goto((PADDLE_X_POSITION, PADDLE_Y_POSITION))
 
     def go_up(self):
         step_up = self.ycor() + 20
