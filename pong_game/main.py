@@ -25,8 +25,8 @@ net = Net()
 
 left_paddle = Paddle("left")
 right_paddle = Paddle("right")
-left_scoreboard = score.Scoreboard((-100, 210))
-right_scoreboard = score.Scoreboard((100, 210))
+left_scoreboard = score.Scoreboard((-100, 210), 5)
+right_scoreboard = score.Scoreboard((100, 210), 5)
 
 ball = ball.Ball()
 ball.first_shot_angle()
