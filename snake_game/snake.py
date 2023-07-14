@@ -25,6 +25,13 @@ class Snake:
             self.add_square((INITIAL_XPOS, INITIAL_YPOS))
             INITIAL_XPOS -= 20
 
+    def snake_crashes(self):
+        for square in self.squares:
+            square.goto(500, 500)
+        self.squares.clear()
+        self.create_snake()
+        self.head = self.squares[0]
+
     def add_square(self, coordinates: tuple[int, int]):
         """Add a square to an existing snake"""
         each_square = Turtle("square")

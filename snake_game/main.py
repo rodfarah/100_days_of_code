@@ -39,13 +39,13 @@ while game_is_on:
         bite_coord = snake.squares[-1].position()
         snake.add_square(bite_coord)
     elif any((x_crashes, y_crashes)):
-        game_is_on = False
-        scoreboard.game_over()
+        scoreboard.reset()
+        snake.snake_crashes()
     
     for square in snake.squares[1:]:
         if snake.head.distance(square) < 10:
-            game_is_on = False
-            scoreboard.game_over()
+            scoreboard.reset()
+            snake.snake_crashes()
 
 
 
