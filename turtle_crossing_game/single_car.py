@@ -18,7 +18,10 @@ def possible_position(lower_y=LOWER_Y_POS, higher_y=HIGHER_Y_POS) -> tuple[int, 
         y_pos += (20 + GAP_BT_CARS)
     return (310, choice(initial_y))
 
+
 class SingleCar(Turtle):
+    """Instantiate a single car object."""
+
     def __init__(self, shape: str = "square", undobuffersize: int = 1000, visible: bool = True) -> None:
         super().__init__(shape, undobuffersize, visible)
         self.shapesize(1, 2)
