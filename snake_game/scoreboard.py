@@ -1,11 +1,15 @@
 from turtle import Turtle
 
+
+
 class Scoreboard(Turtle):
     """Create a snake game scoreboard, starting from number 0"""
     def __init__(self, shape: str = "classic", undobuffersize: int = 1000, visible: bool = True) -> None:
         super().__init__(shape, undobuffersize, visible)
         self.score = 0
-        self.high_score = 0
+        with open("data.txt") as score_saver:
+            high_score = int(score_saver.read())
+        self.high_score = high_score
         self.hideturtle()
         self.color("white")
         self.penup()
@@ -24,6 +28,8 @@ class Scoreboard(Turtle):
     def reset(self):
         if self.score > self.high_score:
             self.high_score = self.score
+            with open("data.txt", mode="w") as update_score:
+                update_score.write(f"{self.high_score}")
         self.clear()
         self.update_scoreboard()
 
