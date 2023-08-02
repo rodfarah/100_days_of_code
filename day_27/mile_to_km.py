@@ -28,7 +28,7 @@ km_label.grid(column=2, row=1)
 
 
 def convert():
-    result = int(miles_input.get()) * 1.60934
+    result = float(miles_input.get()) * 1.60934
     result_label.config(text=result)
 
 
