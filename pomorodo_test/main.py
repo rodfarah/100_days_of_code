@@ -1,4 +1,4 @@
-""""""
+"""Pomodoro Technique is a way of improving productivity when studying"""
 
 import tkinter as tk
 
