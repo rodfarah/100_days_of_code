@@ -25,10 +25,14 @@
 import pandas as pd
 
 all_data = pd.read_csv("nato_phonetic_alphabet/nato_phonetic_alphabet.csv")
-print(all_data)
 
 spell_dict = {row.letter:row.code for idx, row in all_data.iterrows()}
-print(spell_dict)
 
-word = input("Give me a word and I will spell it using NPA: ").upper()
-print([spell_dict[letter] for letter in word])
+while True:
+    word = input("Give me a word and I will spell it using NPA: ").upper()
+    try:
+        print([spell_dict[letter] for letter in word])
+        break
+    except KeyError as not_letters:
+        print(f"Along your entry, I found {not_letters}. Please, insert only letters.")
+        continue
