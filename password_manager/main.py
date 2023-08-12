@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox as mb
 from random import choice, randint, shuffle
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -52,24 +53,42 @@ def validate():
 
 def save():
     """Colect data and insert into a txt file. Clears inserted data from window afterwards."""
-    entries = [website_entry, email_user_entry, password_entry]
-    item_to_add = " | ".join([item.get() for item in entries]) + "\n"
+    website = website_entry.get()
+    email = email_user_entry.get()
+    password = password_entry.get()
 
     confirmation = mb.askokcancel(
         title=website_entry.get(),
         message=(
             f"Do you confirm the following data?\n"
-            f"Website: {website_entry.get()}\n"
-            f"Email/Username: {email_user_entry.get()}\n"
-            f"Password: {password_entry.get()}"
+            f"Website: {website}\n"
+            f"Email/Username: {email}\n"
+            f"Password: {password}"
         )
     )
 
+    # Creating json file
+    new_data = {
+        website: {
+            "email" : email, 
+            "password" : password
+        }
+
+    }
     if confirmation:
-        with open("password_manager/logfile.txt", "a") as logfile:
-            logfile.writelines(item_to_add)
-        website_entry.delete(0, tk.END)
-        password_entry.delete(0, tk.END)
+        try:
+            with open("password_manager/data.json", "r") as data_file:
+                data_readed = json.load(data_file)
+        except FileNotFoundError:
+            with open("password_manager/data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
+            data_readed.update(new_data)
+            with open("password_manager/data.json", "w") as data_file:
+                json.dump(data_readed, data_file, indent=4)
+        finally:    
+            website_entry.delete(0, tk.END)
+            password_entry.delete(0, tk.END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
