@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox as mb
+from tkinter import messagebox as mb, simpledialog as sd
 from random import choice, randint, shuffle
 import json
 
@@ -66,12 +66,12 @@ def save():
             f"Password: {password}"
         )
     )
-
+    website_entry.focus()
     # Creating json file
     new_data = {
-        website: {
-            "email" : email, 
-            "password" : password
+        website.upper(): {
+            "email": email,
+            "password": password
         }
 
     }
@@ -86,10 +86,35 @@ def save():
             data_readed.update(new_data)
             with open("password_manager/data.json", "w") as data_file:
                 json.dump(data_readed, data_file, indent=4)
-        finally:    
+        finally:
             website_entry.delete(0, tk.END)
             password_entry.delete(0, tk.END)
 
+
+# ---------------------------- SEARCH SETUP --------------------------- #
+def search():
+    """
+    Pop up a window asking user for the website name. 
+    Inform user the username(or email) and password for this specific website.
+    """
+    try:
+        with open("password_manager/data.json", "r") as data_file:
+            readed_file = json.load(data_file)
+    except FileNotFoundError:
+        mb.showerror(title="EMPTY FILE",
+                     message="No passwords have been created yet!")
+    else:
+        try:
+            site_to_search = sd.askstring(
+                title="Password Search", prompt="Please, insert site name: ", parent=window)
+            if site_to_search is not None:
+                password = readed_file[site_to_search.upper()]["password"]
+                email = readed_file[site_to_search.upper()]["email"]
+                mb.showinfo(title=f"{site_to_search}".upper(
+                ), message=f"E-mail: {email}\nPassword: {password}")
+        except KeyError:
+            mb.showerror(
+                title="NO RESULTS", message="No password has been created for this website yet!")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -107,21 +132,21 @@ canvas.grid(column=1, row=0)
 # Website Layout
 website_label = tk.Label(text="Website:", fg="black", bg="white")
 website_label.grid(column=0, row=1)
-website_entry = tk.Entry(width=35)
-website_entry.grid(column=1, row=1, columnspan=2, sticky="ew")
+website_entry = tk.Entry(width=25)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
 
 # E-mail/User Layout
 email_user_label = tk.Label(text="Email/Username:", fg="black", bg="white")
 email_user_label.grid(column=0, row=2)
-email_user_entry = tk.Entry(width=35)
+email_user_entry = tk.Entry()
 email_user_entry.insert(0, "digofarah@gmail.com")
 email_user_entry.grid(column=1, row=2, columnspan=2, sticky="ew")
 
 # Password Layout
 password_label = tk.Label(text="Password:", fg="black", bg="white")
 password_label.grid(column=0, row=3)
-password_entry = tk.Entry(width=21)
+password_entry = tk.Entry(width=23)
 password_entry.grid(column=1, row=3, sticky="nsew")
 
 # Buttons Layout
@@ -129,7 +154,12 @@ generate_button = tk.Button(text="Generate Password", font=(
     "Arial", 10), fg="black", bg="white", height=1, command=generate_password)
 generate_button.grid(column=2, row=3, sticky="nsew")
 add_button = tk.Button(text="add", font=("Arial", 10),
-                       width=32, fg="black", bg="white", command=validate)
+                       fg="black", bg="white", command=validate)
 add_button.grid(column=1, row=4, columnspan=2, sticky="nsew")
+
+search_button = tk.Button(text="Search", font=(
+    "Arial", 10), fg="black", bg="white", command=search)
+search_button.grid(column=2, row=1, sticky="nsew")
+
 
 window.mainloop()
