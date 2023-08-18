@@ -7,7 +7,7 @@ class Scoreboard(Turtle):
     def __init__(self, shape: str = "classic", undobuffersize: int = 1000, visible: bool = True) -> None:
         super().__init__(shape, undobuffersize, visible)
         self.score = 0
-        with open("data.txt") as score_saver:
+        with open("snake_game/data.txt") as score_saver:
             high_score = int(score_saver.read())
         self.high_score = high_score
         self.hideturtle()
