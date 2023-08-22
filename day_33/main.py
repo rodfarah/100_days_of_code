@@ -4,11 +4,8 @@ import requests
 
 def get_quote():
     data = requests.get("https://api.kanye.rest/")
-    code_msg = data.status_code
-    if code_msg != 200:
-        raise Exception("Unsuccessful status code.")
-    else:
-        canvas.itemconfig(quote_text, text=f"{data.json()['quote']}" ) 
+    data.raise_for_status()
+    canvas.itemconfig(quote_text, text=f"{data.json()['quote']}" ) 
     
 
 
