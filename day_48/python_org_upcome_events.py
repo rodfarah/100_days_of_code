@@ -13,6 +13,4 @@ events = [event.text.split("\n") for event in driver.find_elements(By.CSS_SELECT
 
 result = {n : {"time": events[n][0], "name": events[n][1]} for n in range(len(events))}
 
-print(result)
-
 driver.quit()
