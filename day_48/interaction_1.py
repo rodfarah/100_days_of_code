@@ -12,7 +12,7 @@ driver.maximize_window()
 driver.get(url=WIKIPEDIA_URL)
 
 article_counter = driver.find_element(By.CSS_SELECTOR, "#articlecount a")
-
+test = driver.find_element(By.LINK_TEXT)
 print(article_counter.text)
 
 driver.quit()
