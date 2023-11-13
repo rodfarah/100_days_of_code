@@ -3,7 +3,7 @@ tasks = []
 
 def task_num_checker(any_func):
     """Decorator, check if task number exists inside task dictionary"""
-    def wrapper_func():
+    def wrapper_1():
         global task_dict
         check_process = True
         while check_process:
@@ -13,23 +13,35 @@ def task_num_checker(any_func):
             else:
                 check_process = False
                 return chosen_idx
-    return wrapper_func
+    return wrapper_1
 
 
-def add_task(task: str):
+def just_print_done(my_func):
+    """ Decorator that just prints 'Done!' after a function is executed"""
+    def wrapper_2(*args, **kwargs):
+        result = my_func(*args, **kwargs)
+        print("Done!")
+        return result
+    return wrapper_2
+
+
+@just_print_done
+def add_task(some_task: str):
     """ Add a task to task list"""
-    tasks.append(task)
-    return "Task added successfully."
+    tasks.append(some_task)
 
+
+@just_print_done
 def delete_task(task_idx: int):
     """Given an index number (key), delete task (value) from task dictionary"""
     tasks.remove(task_dict[task_idx])
 
 
+@just_print_done
 def edit_task(task_number: int, new_task: str):
     """Given a task number (key), edit the corresponding task (value) inside task dictionary"""
-    tasks.insert(task_number-1, new_task)
-    tasks.remove(task_dict[task_number])
+    tasks.pop(task_number - 1)
+    tasks.insert(task_number, new_task)
 
 
 @task_num_checker
@@ -40,7 +52,6 @@ def ask_task_num() -> int:
             return int(input("Type task ID: "))
         except:
             print("Please, enter valid digit(s).")
-
 
 
 def ask_new_task() -> str:
