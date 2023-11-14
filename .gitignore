@@ -2,3 +2,4 @@ fast_tests.py
 env/
 .env
 token.txt
+fast_html_tests.html
