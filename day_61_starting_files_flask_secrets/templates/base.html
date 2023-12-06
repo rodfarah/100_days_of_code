@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Any Title{% endblock %}</title>
+    <style>
+        {% block styling %}
+        body{
+            background-color: purple;
+        }
+        {% endblock %}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Your id is {% block content %}TRUE ou FALSE{% endblock %}</h1>
+    </div>
+  </body>
+</html>
