@@ -1,0 +1,65 @@
+{% extends 'base.html' %} 
+<!--Don't forget your import here-->
+{% from 'bootstrap5/form.html' import render_form%}
+{% block title %}Add A New Cafe{% endblock %} 
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8">
+      <h1>Add a new cafe into the database</h1>
+
+      <!-- {{ render_form(form) }} -->
+      <!-- render_form is practical, but excludes roll bar on TimeField -->
+
+      <form method="POST">
+        {{ form.hidden_tag() }} {{ form.csrf_token }}
+
+        <!-- ChatGPT helped me on bootstrap classes below -->
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.cafe.label }}</label>
+          <p class="form-control-static">{{ form.cafe }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.location_url.label }}</label>
+          <p class="form-control-static">{{ form.location_url }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.open_time.label }}</label>
+          <p class="form-control-static">{{ form.open_time }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.closing_time.label }}</label>
+          <p class="form-control-static">{{ form.closing_time }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.dropdown_coffee.label }}</label>
+          <p class="form-control-static">{{ form.dropdown_coffee }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.dropdown_wifi.label }}</label>
+          <p class="form-control-static">{{ form.dropdown_wifi }}</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ form.dropdown_power.label }}</label>
+          <p class="form-control-static">{{ form.dropdown_power }}</p>
+        </div>
+
+        <p class="mb-3">{{ form.submit(class="btn btn-primary") }}</p>
+      </form>
+
+      <p class="space-above">
+        <a href="{{ url_for('cafes') }}">See all cafes</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
