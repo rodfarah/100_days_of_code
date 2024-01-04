@@ -8,10 +8,12 @@
     <h1>My Library</h1>
     {% if books: %}
       <ul>
-        {% for book in books: %}
-        <li>
-          {{ book.title }} - {{ book.author }} - {{ book.rating }}/10
-        </li>
+        {% for result in books: %}
+          {% for book in result: %}
+            <li>
+              {{ book.title }} - {{ book.author }} - {{ book.rating }}/10
+            </li>
+          {% endfor %}
         {% endfor %}
       </ul>
     {% else: %}
