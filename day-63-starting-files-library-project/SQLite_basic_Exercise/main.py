@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///book-collection.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db=SQLAlchemy(app)
+db = SQLAlchemy(app)
 
 
 class Book(db.Model):
@@ -16,23 +16,29 @@ class Book(db.Model):
     author = db.Column(db.String(50))
     rating = db.Column(db.Float, nullable=False)
 
+
 if not os.path.exists('book-collection.db'):
     with app.app_context():
         db.create_all()
 
+
+def db_query(id):
+    target_book = db.session.execute(db.select(Book).where(Book.id == id)).scalar_one_or_none()
+    return target_book
+
+
 @app.route('/')
 def home():
     all_books = db.session.execute(db.select(Book).order_by(Book.id)).all()
-    print(all_books)
     return render_template('index.html', books=all_books)
 
 
-@app.route("/add", methods = ["GET", "POST"])
+@app.route("/add", methods=["GET", "POST"])
 def add():
     if request.method == "POST":
         new_book = Book(
-            title=request.form["title"], 
-            author=request.form["author"], 
+            title=request.form["title"],
+            author=request.form["author"],
             rating=request.form["rating"]
         )
         db.session.add(new_book)
@@ -42,6 +48,21 @@ def add():
     return render_template('add.html')
 
 
+@app.route('/edit', methods=["POST", "GET"])
+def edit():
+    if request.method == "POST":
+        title = request.form['title']
+        old_rating = request.form['rating']
+        id = request.form['id']
+        return render_template('edit.html', id=id, title=title, old_rating=old_rating)
+
+@app.route('/edit-process', methods=['POST', 'GET'])
+def process():
+    if request.method == "POST":
+        almost_edited = db_query(request.form['id'])
+        almost_edited.rating = request.form['new_rating']
+        db.session.commit()
+        return home()
+
 if __name__ == "__main__":
     app.run(debug=True)
-

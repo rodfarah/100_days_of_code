@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .borda-texto {
+          border: 2px solid black; 
+          padding: 10px; 
+        }
+      </style>
+    <title>Edit Book</title>
+</head>
+<body>
+    <h1>Edit Book Rating</h1>
+    <h3>Book Name:</h3>
+    <div class="borda-texto"> {{ title }} </div>
+    <p></p>
+    <h3>Current Rating:</h3>
+    <div class="borda-texto"> {{ old_rating }} </div>
+    <p></p>
+    <form action="{{ url_for('process')}}" method="POST">
+        <label>New Rating</label>
+        <input name="new_rating" type="number" />
+        <input type="hidden" name="id" value="{{ id }}">
+        <button type="submit">Submit</button>
+</body>
+</html>
