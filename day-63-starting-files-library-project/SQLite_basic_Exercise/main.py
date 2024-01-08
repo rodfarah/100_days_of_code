@@ -23,7 +23,8 @@ if not os.path.exists('book-collection.db'):
 
 
 def db_query(id):
-    target_book = db.session.execute(db.select(Book).where(Book.id == id)).scalar_one_or_none()
+    target_book = db.session.execute(
+        db.select(Book).where(Book.id == id)).scalar_one_or_none()
     return target_book
 
 
@@ -48,6 +49,14 @@ def add():
     return render_template('add.html')
 
 
+@app.route('/delete', methods=["POST"])
+def delete():
+    to_be_deleted = db_query(request.form['id'])
+    db.session.delete(to_be_deleted)
+    db.session.commit()
+    return home()
+
+
 @app.route('/edit', methods=["POST", "GET"])
 def edit():
     if request.method == "POST":
@@ -56,6 +65,7 @@ def edit():
         id = request.form['id']
         return render_template('edit.html', id=id, title=title, old_rating=old_rating)
 
+
 @app.route('/edit-process', methods=['POST', 'GET'])
 def process():
     if request.method == "POST":
@@ -63,6 +73,7 @@ def process():
         almost_edited.rating = request.form['new_rating']
         db.session.commit()
         return home()
+
 
 if __name__ == "__main__":
     app.run(debug=True)
