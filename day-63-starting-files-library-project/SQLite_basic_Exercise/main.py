@@ -59,20 +59,18 @@ def delete():
 
 @app.route('/edit', methods=["POST", "GET"])
 def edit():
-    if request.method == "POST":
-        title = request.form['title']
-        old_rating = request.form['rating']
-        id = request.form['id']
-        return render_template('edit.html', id=id, title=title, old_rating=old_rating)
+    title = request.form['title']
+    old_rating = request.form['rating']
+    id = request.form['id']
+    return render_template('edit.html', id=id, title=title, old_rating=old_rating)
 
 
 @app.route('/edit-process', methods=['POST', 'GET'])
 def process():
-    if request.method == "POST":
-        almost_edited = db_query(request.form['id'])
-        almost_edited.rating = request.form['new_rating']
-        db.session.commit()
-        return home()
+    almost_edited = db_query(request.form['id'])
+    almost_edited.rating = request.form['new_rating']
+    db.session.commit()
+    return home()
 
 
 if __name__ == "__main__":
