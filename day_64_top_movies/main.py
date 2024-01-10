@@ -61,8 +61,6 @@ def home():
     return render_template("index.html", all_movies=all_movies)
 
 # Adding the update functionality
-
-
 @app.route("/edit", methods=["GET", "POST"])
 def edit_rating_review():
     form = EditForm()
@@ -74,6 +72,16 @@ def edit_rating_review():
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('edit.html', form=form, to_be_updated=to_be_updated)
+
+
+# Adding delete functionality
+@app.route('/delete')
+def delete_movie():
+    id_to_delete = request.args.get("id")
+    to_be_deleted = db.get_or_404(entity=Movie, ident=id_to_delete)
+    db.session.delete(to_be_deleted)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
