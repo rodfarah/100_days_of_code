@@ -5,9 +5,10 @@
 {% block content %}
 <div class="container">
     <h1 class="heading">Select Movie</h1>
-  <p>
-    <a href="#"> MOVIE TITLE - MOVIE RELEASE DATE</a>
-  </p>
-
+    <ul>
+      {% for result in results %}
+    <li><a href="{{ url_for('fetch_details', id=result.id) }}"> {{ result.title }} - {{result.release_date[0:4]}} </a></li>
+  {% endfor %}
+  </ul>
 </div>
 {% endblock %}
